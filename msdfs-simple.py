@@ -224,7 +224,7 @@ class MsdFS(Operations):
 
     @msdfs_operator
     def access(self, path, amode):
-        if not os.access(path, mode):
+        if not os.access(path, amode):
             raise FuseOSError(errno.EACCES)
 
     @msdfs_operator
@@ -254,12 +254,12 @@ class MsdFS(Operations):
     @msdfs_operator
     def readdir(self, path, fh):
         if isdir(path):
-            return ['.', '..'] + os.listdir(path))
+            return ['.', '..'] + os.listdir(path)
         # FIXME on error?
 
     @msdfs_operator
     def readlink(self, path):
-        return = os.readlink(path)
+        return os.readlink(path)
 
     @msdfs_operator
     def release(self, path, fh):
@@ -272,7 +272,7 @@ class MsdFS(Operations):
     @msdfs_operator
     def statfs(self, path):
         statvfs = os.statvfs(path)
-        return {key:getatter(statvfs, key) for key in dir(statvfs) if key.startswith('f_')}
+        return {key:getattr(statvfs, key) for key in dir(statvfs) if key.startswith('f_')}
 
     @msdfs_operator
     def release(self, path, fh):
